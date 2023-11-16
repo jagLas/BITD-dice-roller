@@ -20,9 +20,26 @@ function rollDice (num: number) {
     return results
 }
 
+function calculateResult(results: number[]) {
+    let max = 1;
+    let crit = false;
+
+    results.forEach(result => {
+        if (max === 6 && result === 6) {
+            crit = true;
+        }
+        if (result > max) {
+            max = result
+        }
+    })
+
+    return crit ? 'crit' : max;
+}
+
 function DiceButton ({num, setResult}: DiceButtonProps) {
     const onClickHandler = () => {
-        console.log(rollDice(num))
+        const result = rollDice(num)
+        console.log(result, calculateResult(result))
         setResult(num)
     }
 
@@ -34,7 +51,7 @@ function DiceButton ({num, setResult}: DiceButtonProps) {
 export function Controls ({setResult} : ControlProps) {
     return (
         <div className="controls">
-            <DiceButton num={1} setResult={setResult} />
+            <DiceButton num={2} setResult={setResult} />
         </div>
     )
 }
