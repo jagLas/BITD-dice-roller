@@ -1,7 +1,7 @@
 import React from "react"
 
 interface ControlProps {
-    setResult: React.Dispatch<React.SetStateAction<number>>
+    setResult: React.Dispatch<React.SetStateAction<number[]>>
 }
 
 interface DiceButtonProps extends ControlProps {
@@ -20,27 +20,12 @@ function rollDice (num: number) {
     return results
 }
 
-function calculateResult(results: number[]) {
-    let max = 1;
-    let crit = false;
 
-    results.forEach(result => {
-        if (max === 6 && result === 6) {
-            crit = true;
-        }
-        if (result > max) {
-            max = result
-        }
-    })
-
-    return crit ? 'crit' : max;
-}
 
 function DiceButton ({num, setResult}: DiceButtonProps) {
     const onClickHandler = () => {
         const result = rollDice(num)
-        console.log(result, calculateResult(result))
-        setResult(num)
+        setResult(result)
     }
 
     return (
