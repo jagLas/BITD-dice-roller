@@ -1,3 +1,12 @@
+import React from "react"
+import { ReactComponent as DieFace1} from "./dice/1.svg"
+import { ReactComponent as DieFace2} from "./dice/2.svg"
+import { ReactComponent as DieFace3} from "./dice/3.svg"
+import { ReactComponent as DieFace4} from "./dice/4.svg"
+import { ReactComponent as DieFace5} from "./dice/5.svg"
+import { ReactComponent as DieFace6} from "./dice/6.svg"
+import { JsxElement } from "typescript"
+
 function calculateResult(results: number[]) {
     let max = 1;
     let crit = false;
@@ -15,10 +24,18 @@ function calculateResult(results: number[]) {
 }
 
 function Die ({num} : {num : number}) {
+    const dice : {[key: number]: any} = {
+        1: <DieFace1 />,
+        2: <DieFace2 />,
+        3: <DieFace3 />,
+        4: <DieFace4 />,
+        5: <DieFace5 />,
+        6: <DieFace6 />
+    }
 
     return (
         <div className="die">
-            {num}
+            {dice[num]}
         </div>
     )
 }
