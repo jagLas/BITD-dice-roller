@@ -20,8 +20,6 @@ function rollDice (num: number) {
     return results
 }
 
-
-
 function DiceButton ({num, setResult}: DiceButtonProps) {
     const onClickHandler = () => {
         const result = rollDice(num)
@@ -34,9 +32,16 @@ function DiceButton ({num, setResult}: DiceButtonProps) {
 }
 
 export function Controls ({setResult} : ControlProps) {
+    const buttons = []
+    for (let i = 1; i <= 6; i++) {
+        buttons.push(
+            <DiceButton num={i} key={i} setResult={setResult} />
+        )
+    }
+
     return (
         <div className="controls">
-            <DiceButton num={2} setResult={setResult} />
+            {buttons}
         </div>
     )
 }

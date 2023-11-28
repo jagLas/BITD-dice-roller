@@ -14,15 +14,23 @@ function calculateResult(results: number[]) {
     return crit ? 'crit' : max;
 }
 
+function Die ({num} : {num : number}) {
+
+    return (
+        <div className="die">
+            {num}
+        </div>
+    )
+}
+
 export function Results ({results} : {results: number[]}) {
     return (
         <div id="results">
             {results.map((result, i) => {
                 return (
-                    <div key={i}>{result}</div>
+                    <Die key={i} num={result}/>
                 )
             })}
-
         </div>
     )
 }
