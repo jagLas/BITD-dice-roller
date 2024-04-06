@@ -1,11 +1,13 @@
 import React from "react"
 
 interface ControlProps {
-    setResult: React.Dispatch<React.SetStateAction<number[]>>
+    setResult: React.Dispatch<React.SetStateAction<number[]>>;
+    setRolling: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface DiceButtonProps extends ControlProps {
+interface DiceButtonProps {
     num: number
+    onClick: () => void;
 }
 
 function rollDice (num: number) {
@@ -13,29 +15,31 @@ function rollDice (num: number) {
     let rolls = 0;
     while (rolls < num) {
         const result = Math.floor(Math.random() * (6) + 1);
-        results.push(result)
+        results.push(result);
         rolls++;
     }
 
-    return results
+    return results;
 }
 
-function DiceButton ({num, setResult}: DiceButtonProps) {
-    const onClickHandler = () => {
-        const result = rollDice(num)
-        setResult(result)
-    }
-
+function DiceButton ({num, onClick}: DiceButtonProps) {
     return (
-        <button onClick={onClickHandler}>{num}</button>
+        <button onClick={onClick}>{num}</button>
     )
 }
 
-export function Controls ({setResult} : ControlProps) {
-    const buttons = []
+export function Controls ({setResult, setRolling} : ControlProps) {
+    const buttons = [];
+
+    const onClickHandler = (num: number) => () => {
+        const result = rollDice(num);
+        setResult(result);
+        setRolling(true);
+    }
+
     for (let i = 1; i <= 6; i++) {
         buttons.push(
-            <DiceButton num={i} key={i} setResult={setResult} />
+            <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
         )
     }
 
