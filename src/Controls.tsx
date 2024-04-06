@@ -24,7 +24,7 @@ function rollDice (num: number) {
 
 function DiceButton ({num, onClick}: DiceButtonProps) {
     return (
-        <button onClick={onClick}>{num}</button>
+        <button className="dice-button" onClick={onClick}>{num}</button>
     )
 }
 
@@ -44,7 +44,7 @@ export function Controls ({setResult, setRolling} : ControlProps) {
     }
 
     return (
-        <div className="controls">
+        <div id="controls">
             {buttons}
         </div>
     )
