@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg width="200" height="200" version="1.1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlnsCc="http://creativecommons.org/ns#" xmlnsDc="http://purl.org/dc/elements/1.1/" xmlnsRdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<svg width="200" height="200" version="1.1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlnscc="http://creativecommons.org/ns#" xmlnsdc="http://purl.org/dc/elements/1.1/" xmlnsrdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
  <metadata>
   <rdfRDF>
-   <ccWork rdfAbout="">
+   <ccWork rdfabout="">
     <dcFormat>image/svg+xml</dcFormat>
-    <dctype rdfResource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dctype rdfresource="http://purl.org/dc/dcmitype/StillImage"/>
     <dctitle/>
    </ccWork>
   </rdfRDF>

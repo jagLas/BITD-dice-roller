@@ -7,7 +7,6 @@ import { ReactComponent as DieFace5} from "./dice/5.svg"
 import { ReactComponent as DieFace6} from "./dice/6.svg"
 
 
-
 function Die ({num, rolling} : {num : number, rolling: boolean}) {
     const dice : {[key: number]: any} = {
         1: <DieFace1 />,
@@ -31,17 +30,9 @@ function Die ({num, rolling} : {num : number, rolling: boolean}) {
         }
     }, [rolling])
 
-    if (rolling) {
-        return (
-            <div className="die">
-                {dice[randomRes]}
-            </div>
-        );
-    };
-
     return (
         <div className="die">
-            {dice[num]}
+            {rolling ? dice[randomRes] : dice[num]}
         </div>
     )
 }

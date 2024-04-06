@@ -19,7 +19,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>FORGED IN THE DARK: Dice Roller</h1>
+      <h1>FORGED IN THE DARK</h1>
+      <h2>Dice Roller</h2>
       <h2>Select a Number to Roll</h2>
       <Controls setResult={setResult} setRolling={setRolling}/>
       <Results results={result} rolling={rolling}/>
