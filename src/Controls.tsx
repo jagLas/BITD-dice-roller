@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+
 
 interface ControlProps {
     setResult: React.Dispatch<React.SetStateAction<number[]>>;
@@ -9,6 +10,12 @@ interface DiceButtonProps {
     num: number
     onClick: () => void;
 }
+
+interface modifyControlsProps {
+    children?: any;
+    onClick: () => void;
+}
+
 
 function rollDice (num: number) {
     const results: number[] = [];
@@ -24,11 +31,20 @@ function rollDice (num: number) {
 
 function DiceButton ({num, onClick}: DiceButtonProps) {
     return (
-        <button className="dice-button" onClick={onClick}>{num}</button>
+        <button className="button dice" onClick={onClick}>{num}</button>
+    )
+}
+
+function ModifyControls ({children, onClick}: modifyControlsProps) {
+    return (
+        <div onClick={onClick}>
+            <button className="button modifier">{children}</button>
+        </div>
     )
 }
 
 export function Controls ({setResult, setRolling} : ControlProps) {
+    const [numControls, setNumControls] = useState<number>(6);
     const buttons = [];
 
     const onClickHandler = (num: number) => () => {
@@ -37,7 +53,7 @@ export function Controls ({setResult, setRolling} : ControlProps) {
         setRolling(true);
     }
 
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= numControls; i++) {
         buttons.push(
             <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
         )
@@ -45,7 +61,11 @@ export function Controls ({setResult, setRolling} : ControlProps) {
 
     return (
         <div id="controls">
+            <ModifyControls onClick={() => setNumControls(prevState => prevState !== 1 ? prevState - 1 : prevState)}>
+                -
+            </ModifyControls>
             {buttons}
+            <ModifyControls onClick={() => setNumControls(prevState => prevState + 1)}>+</ModifyControls>
         </div>
     )
 }

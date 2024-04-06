@@ -6,21 +6,7 @@ import { ReactComponent as DieFace4} from "./dice/4.svg"
 import { ReactComponent as DieFace5} from "./dice/5.svg"
 import { ReactComponent as DieFace6} from "./dice/6.svg"
 
-function calculateResult(results: number[]) {
-    let max = 1;
-    let crit = false;
 
-    results.forEach(result => {
-        if (max === 6 && result === 6) {
-            crit = true;
-        }
-        if (result > max) {
-            max = result
-        }
-    })
-
-    return crit ? 'crit' : max;
-}
 
 function Die ({num, rolling} : {num : number, rolling: boolean}) {
     const dice : {[key: number]: any} = {
