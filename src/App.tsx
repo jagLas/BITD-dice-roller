@@ -4,6 +4,8 @@ import { Controls } from './Controls';
 import { Results } from './Results';
 import { Interpretation } from './Interpretation'
 import { calculateResult, getResultColor } from './utils/utils';
+import { History } from './History';
+import { HistoryProvider } from './utils/HistoryContext';
 
 
 function App() {
@@ -25,13 +27,22 @@ function App() {
 
   return (
     <div className="App">
+      <HistoryProvider>
+        <div>
+          <h1>FORGED IN THE DARK</h1>
+          <h3>Dice Roller</h3>
+        </div>
 
-        <h1>FORGED IN THE DARK</h1>
-        <h2>Dice Roller</h2>
         <h2>Select a Number to Roll</h2>
-        <Controls setResult={setResult} setRolling={setRolling}/>
+
+        <Controls setResult={setResult} setRolling={setRolling} result={result} rolling={rolling} />
+
         <Results results={result} rolling={rolling} resultColor={resultColor}/>
+
         {result.length > 0 && <Interpretation rolling={rolling} resultType={resultType} color={resultColor}/>}
+
+        <History />
+      </HistoryProvider>
     </div>
   );
 }

@@ -2,11 +2,11 @@
   text-align: center;
   margin: 0px auto;
   background-color: #3f3f37;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   color: #e5e5e5;
-  font-family: 'serif';
-  padding: 32px 0px 0px 0px;
+  font-family: 'platypi', serif;
+  padding: 32px 8px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -16,6 +16,20 @@
 html, body, h1, h2, h3 {
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+h2 {
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-weight: 300;
+  text-transform: uppercase;
 }
 
 svg {
@@ -35,6 +49,14 @@ rect {
 }
 
 #controls {
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  align-items: center;
+  justify-content: center;
+  gap: 8px
+}
+
+#button-controls{
   display: flex;
   flex-flow: wrap;
   gap: 8px;
@@ -63,4 +85,43 @@ rect {
   justify-content: center;
   align-items: center;
   border-radius: 16px;
+}
+
+#history {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+#history h3 {
+  text-transform: none;
+}
+
+#history>div{
+  display: flex;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid gray;
+  padding: 16px;
+}
+
+#history>div:first-of-type {
+  border: none;
+}
+
+#history .die svg {
+  height: 50px;
+  width: 50px;
+}
+
+#history .die {
+  border-radius: 8px;
+}
+
+#history #result-eval.interpretation {
+  font-size: 18px;
 }

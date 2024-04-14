@@ -1,9 +1,13 @@
 import React, { useState } from "react"
+import { Result } from "./utils/utils";
+import { useDispatch } from "./utils/HistoryContext";
 
 
 interface ControlProps {
     setResult: React.Dispatch<React.SetStateAction<number[]>>;
     setRolling: React.Dispatch<React.SetStateAction<boolean>>;
+    result: Result;
+    rolling: boolean;
 }
 
 interface DiceButtonProps {
@@ -43,13 +47,18 @@ function ModifyControls ({children, onClick}: modifyControlsProps) {
     )
 }
 
-export function Controls ({setResult, setRolling} : ControlProps) {
+export function Controls ({setResult, setRolling, result, rolling} : ControlProps) {
     const [numControls, setNumControls] = useState<number>(6);
     const buttons = [];
+    const dispatch = useDispatch();
 
     const onClickHandler = (num: number) => () => {
-        const result = rollDice(num);
-        setResult(result);
+        if (rolling) {
+            return;
+        }
+        dispatch({type: 'ADD_TO_HISTORY', payload: result})
+        const newResult = rollDice(num);
+        setResult(newResult);
         setRolling(true);
     }
 
@@ -64,7 +73,11 @@ export function Controls ({setResult, setRolling} : ControlProps) {
             <ModifyControls onClick={() => setNumControls(prevState => prevState !== 1 ? prevState - 1 : prevState)}>
                 -
             </ModifyControls>
-            {buttons}
+            
+            <div id='button-controls'>
+                {buttons}
+            </div>
+
             <ModifyControls onClick={() => setNumControls(prevState => prevState + 1)}>+</ModifyControls>
         </div>
     )

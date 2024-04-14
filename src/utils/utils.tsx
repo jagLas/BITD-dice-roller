@@ -1,6 +1,11 @@
-export type ResultType = 'Success' | 'Success with Consequences' | 'Failure' | 'Critical Success';
+export type ResultType = 'Success' | 'Success with Consequences' | 'Failure' | 'Critical Success' | '';
+export type Result = number[];
+export type ResultColor = '#ff6ca4' | '#aef082' | '#fdb40b' | '#db1f1a' | 'white';
 
 export function calculateResult(results: number[]): ResultType {
+    if (results.length ===0) {
+        return ''
+    }
     let max = 1;
     let crit = false;
 
@@ -25,7 +30,7 @@ export function calculateResult(results: number[]): ResultType {
 }
 
 export const getResultColor = (resultType: ResultType) => {
-    let color;
+    let color: ResultColor;
     switch(resultType) {
         case 'Critical Success':
             color = '#ff6ca4';
