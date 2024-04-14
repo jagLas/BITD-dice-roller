@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { Result } from "./utils/utils";
 import { useDispatch } from "./utils/HistoryContext";
+import { motion } from 'framer-motion'
 
 
 interface ControlProps {
@@ -35,21 +36,23 @@ function rollDice (num: number) {
 
 function DiceButton ({num, onClick}: DiceButtonProps) {
     return (
-        <button className="button dice" onClick={onClick}>{num}</button>
+        <button
+            className="button dice"
+            onClick={onClick}
+        >
+            {num}
+        </button>
     )
 }
 
 function ModifyControls ({children, onClick}: modifyControlsProps) {
     return (
-        <div onClick={onClick}>
-            <button className="button modifier">{children}</button>
-        </div>
+        <button onClick={onClick} className="button modifier">{children}</button>
     )
 }
 
 export function Controls ({setResult, setRolling, result, rolling} : ControlProps) {
     const [numControls, setNumControls] = useState<number>(6);
-    const buttons = [];
     const dispatch = useDispatch();
 
     const onClickHandler = (num: number) => () => {
@@ -62,23 +65,25 @@ export function Controls ({setResult, setRolling, result, rolling} : ControlProp
         setRolling(true);
     }
 
-    for (let i = 1; i <= numControls; i++) {
-        buttons.push(
-            <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
-        )
-    }
+    const buttons = useMemo(() => {
+        const buttons = [];
+        for (let i = 1; i <= numControls; i++) {
+            buttons.push(
+                <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
+            )
+        }
+        return buttons;
+    }, [numControls]);
 
     return (
-        <div id="controls">
-            <ModifyControls onClick={() => setNumControls(prevState => prevState !== 1 ? prevState - 1 : prevState)}>
+        <motion.div layout transition={{duration: .01}} id="controls">
+            <ModifyControls key={'first control'} onClick={() => setNumControls(prevState => prevState !== 1 ? prevState - 1 : prevState)}>
                 -
             </ModifyControls>
-            
-            <div id='button-controls'>
+            <motion.div layout transition={{duration: .3}} id='button-controls'>
                 {buttons}
-            </div>
-
-            <ModifyControls onClick={() => setNumControls(prevState => prevState + 1)}>+</ModifyControls>
-        </div>
+            </motion.div>
+            <ModifyControls key={'second control'} onClick={() => setNumControls(prevState => prevState + 1)}>+</ModifyControls>
+        </motion.div>
     )
 }

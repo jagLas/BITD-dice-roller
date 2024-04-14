@@ -49,11 +49,10 @@ rect {
 }
 
 #controls {
-  display: grid;
-  grid-template-columns: min-content auto min-content;
-  align-items: center;
+  display: flex;
   justify-content: center;
-  gap: 8px
+  align-items: center;
+  gap: 8px;
 }
 
 #button-controls{
