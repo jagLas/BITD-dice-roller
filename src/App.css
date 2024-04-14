@@ -76,6 +76,10 @@ rect {
   border-radius: 8px;
 }
 
+.button:hover {
+  cursor: pointer;
+}
+
 .button.modifier {
   width: 32px;
 }

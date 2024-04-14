@@ -5,6 +5,7 @@ interface ResultHistoryItem {
     result?: Result;
     resultType?: ResultType;
     resultColor?: ResultColor;
+    rollNumber: number;
 }
 const initialState: ResultHistoryItem[] = []
 
@@ -16,9 +17,10 @@ function reducer(state: ResultHistoryItem[], action: ACTIONTYPE) {
     }
     switch (action.type) {
         case 'ADD_TO_HISTORY':
+            const nextRollNumber = (state[0]?.rollNumber ?? 0) + 1;
             const resultType = calculateResult(action.payload);
             const resultColor = getResultColor(resultType);
-            return [{result: action.payload, resultColor, resultType}, ...state]
+            return [{result: action.payload, resultColor, resultType, rollNumber: nextRollNumber}, ...state]
 
         default:
             return [...state];
