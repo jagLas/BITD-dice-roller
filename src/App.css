@@ -57,3 +57,10 @@ rect {
 .button.modifier {
   width: 32px;
 }
+
+.die {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+}

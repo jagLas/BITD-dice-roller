@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ReactComponent as DieFace1} from "./dice/1.svg"
 import { ReactComponent as DieFace2} from "./dice/2.svg"
 import { ReactComponent as DieFace3} from "./dice/3.svg"
@@ -7,7 +7,7 @@ import { ReactComponent as DieFace5} from "./dice/5.svg"
 import { ReactComponent as DieFace6} from "./dice/6.svg"
 
 
-function Die ({num, rolling} : {num : number, rolling: boolean}) {
+function Die ({hightlight, num, rolling, highlightColor} : {hightlight?: boolean, num : number, rolling: boolean, highlightColor: string,}) {
     const dice : {[key: number]: any} = {
         1: <DieFace1 />,
         2: <DieFace2 />,
@@ -31,18 +31,29 @@ function Die ({num, rolling} : {num : number, rolling: boolean}) {
     }, [rolling])
 
     return (
-        <div className="die">
+        <div className={`die ${!rolling}`} style={{backgroundColor: hightlight && !rolling ? highlightColor : 'unset'}}>
             {rolling ? dice[randomRes] : dice[num]}
         </div>
     )
 }
 
-export function Results ({results, rolling} : {results: number[], rolling: boolean}){
+export function Results ({results, resultColor, rolling} : {results: number[], resultColor: string, rolling: boolean}){
+    const max = Math.max(...results)
+    const firstDie = results.indexOf(max);
+
     return (
         <div id="results">
             {results.map((result, i) => {
+                //only highlight the first die if it's less than 6. Otherwise, highlight them all
+                let hightlight = false;
+                if (max < 6) {
+                    hightlight = (result === max) && (i === firstDie);
+                } else {
+                    hightlight = (result === max);
+                }
+
                 return (
-                    <Die key={i} num={result} rolling={rolling}/>
+                    <Die key={i} hightlight={hightlight} num={result} rolling={rolling} highlightColor={resultColor}/>
                 )
             })}
         </div>
