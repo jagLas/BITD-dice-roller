@@ -5,7 +5,6 @@ import { Results } from './Results';
 import { Interpretation } from './Interpretation'
 import { calculateResult, getResultColor } from './utils/utils';
 import { History } from './History';
-import { HistoryProvider } from './utils/HistoryContext';
 
 
 function App() {
@@ -23,11 +22,8 @@ function App() {
     }
   }, [rolling])
 
-
-
   return (
     <div className="App">
-      <HistoryProvider>
         <div>
           <h1>FORGED IN THE DARK</h1>
           <h3>Dice Roller</h3>
@@ -42,7 +38,6 @@ function App() {
         {result.length > 0 && <Interpretation rolling={rolling} resultType={resultType} color={resultColor}/>}
 
         <History />
-      </HistoryProvider>
     </div>
   );
 }

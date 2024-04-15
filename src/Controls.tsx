@@ -40,7 +40,7 @@ function DiceButton ({num, onClick}: DiceButtonProps) {
             className="button dice"
             onClick={onClick}
         >
-            {num}
+            {`${num}d6`}
         </button>
     )
 }
@@ -65,15 +65,12 @@ export function Controls ({setResult, setRolling, result, rolling} : ControlProp
         setRolling(true);
     }
 
-    const buttons = useMemo(() => {
-        const buttons = [];
-        for (let i = 1; i <= numControls; i++) {
-            buttons.push(
-                <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
-            )
-        }
-        return buttons;
-    }, [numControls]);
+    const buttons = [];
+    for (let i = 1; i <= numControls; i++) {
+        buttons.push(
+            <DiceButton num={i} key={i} onClick={onClickHandler(i)} />
+        )
+    }
 
     return (
         <motion.div layout transition={{duration: .01}} id="controls">
