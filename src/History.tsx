@@ -22,7 +22,7 @@ export const History = () => {
                         initial={{opacity: 0, scale: .5, height: 0}}
                         animate={{opacity: 1, scale: 1, height: 'auto'}}
                         transition={{
-                            opacity: {duration: 1},
+                            opacity: {duration: .5},
                             height: {duration: .25}
                         }}
                     >
