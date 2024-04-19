@@ -1,4 +1,3 @@
-import { isVisible } from "@testing-library/user-event/dist/utils";
 import { Interpretation } from "./Interpretation";
 import { Results } from "./Results";
 import { useHistory } from "./utils/HistoryContext";
