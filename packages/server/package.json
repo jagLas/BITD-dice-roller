@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Backend server for dice rolling",
   "scripts": {
-    "start": "node index.ts",
+    "start": "ts-node index.ts",
     "build": "npx tsc",
     "dev": "nodemon index.ts"
   },
