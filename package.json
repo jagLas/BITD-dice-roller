@@ -1,4 +1,7 @@
 {
     "name": "fitd-roller",
-    "workspaces": ["packages/*"]
+    "workspaces": ["packages/*"],
+    "scripts": {
+      "dev": "npm run dev -w fitd-roller-client & npm run dev -w fitd-roller-server"
+    }
   }
