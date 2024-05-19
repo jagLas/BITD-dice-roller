@@ -9,7 +9,7 @@ interface ResultHistoryItem {
 }
 const initialState: ResultHistoryItem[] = []
 
-type ACTIONTYPE = | {type: 'ADD_TO_HISTORY'; payload: Result}
+type ACTIONTYPE = {type: 'ADD_TO_HISTORY'; payload: Result}
 
 function reducer(state: ResultHistoryItem[], action: ACTIONTYPE) {
     if (action.payload.length === 0) {

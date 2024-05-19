@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Result } from "./utils/utils";
 import { useDispatch } from "./utils/HistoryContext";
 import { motion } from 'framer-motion'
+import { socket } from "./utils/socket";
 
 
 interface ControlProps {
@@ -63,6 +64,7 @@ export function Controls ({setResult, setRolling, result, rolling} : ControlProp
         const newResult = rollDice(num);
         setResult(newResult);
         setRolling(true);
+        socket.emit('roll', newResult)
     }
 
     const buttons = [];
