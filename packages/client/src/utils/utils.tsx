@@ -2,6 +2,19 @@ export type ResultType = 'Success' | 'Success with Consequences' | 'Failure' | '
 export type Result = number[];
 export type ResultColor = '#ff6ca4' | '#aef082' | '#fdb40b' | '#db1f1a' | 'white';
 
+
+export function rollDice (num: number) {
+    const results: number[] = [];
+    let rolls = 0;
+    while (rolls < num) {
+        const result = Math.floor(Math.random() * (6) + 1);
+        results.push(result);
+        rolls++;
+    }
+
+    return results;
+}
+
 export function calculateResult(results: number[]): ResultType {
     if (results.length ===0) {
         return ''

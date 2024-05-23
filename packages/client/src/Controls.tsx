@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { Result } from "./utils/utils";
-import { useDispatch } from "./utils/HistoryContext";
 import { motion } from 'framer-motion'
 import { socket } from "./utils/socket";
+import { useParams } from "react-router";
+import { rollDice } from "./utils/utils";
 
 
 interface ControlProps {
@@ -23,18 +24,6 @@ interface modifyControlsProps {
 }
 
 
-function rollDice (num: number) {
-    const results: number[] = [];
-    let rolls = 0;
-    while (rolls < num) {
-        const result = Math.floor(Math.random() * (6) + 1);
-        results.push(result);
-        rolls++;
-    }
-
-    return results;
-}
-
 function DiceButton ({num, onClick}: DiceButtonProps) {
     return (
         <button
@@ -52,19 +41,24 @@ function ModifyControls ({children, onClick}: modifyControlsProps) {
     )
 }
 
-export function Controls ({setResult, setRolling, result, rolling} : ControlProps) {
+export function Controls ({setResult, setRolling, rolling} : ControlProps) {
     const [numControls, setNumControls] = useState<number>(6);
-    const dispatch = useDispatch();
+    const { roomId } = useParams();
 
     const onClickHandler = (num: number) => () => {
         if (rolling) {
             return;
         }
-        dispatch({type: 'ADD_TO_HISTORY', payload: result})
-        const newResult = rollDice(num);
-        setResult(newResult);
-        setRolling(true);
-        socket.emit('roll', newResult)
+
+        let newResult: number[];
+
+        if(socket.connected) {
+            socket.emit('roll', {numDice: num, roomId})
+        } else {
+            newResult = rollDice(num);
+            setResult(newResult);
+            setRolling(true);
+        }
     }
 
     const buttons = [];
