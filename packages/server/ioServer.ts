@@ -1,76 +1,88 @@
 import { Server } from "socket.io";
+import { rollDice } from "./utils/utils";
 
 
 interface Rooms {
     [key: string]: {
         roomId: string;
         password: string;
-        users: string[];
+        users: User[];
     }
 }
 
-interface Users {
-    [key: string]: {
-        id: string;
-        roomId?: string;
-    }
+interface User {
+    id: string;
+    username: string;
+
 }
+
 
 
 export function makeIoServer(server: Server) {
     const io = new Server(server as any, {});
 
     const rooms: Rooms = {};
-    const users: Users = {};
 
     io.on("connection", (socket) => {
-        users[socket.id] = { id: socket.id }
-        console.log('a user connected');
-        socket.on('joinRoom', ({ roomId, password }) => {
+        console.log('a user connected', socket.id);
+        socket.on('joinRoom', ({ roomId, password, username }: {username: string, roomId: string, password: string}) => {
+            console.log(username)
+            const newUser = {
+                username,
+                id: socket.id
+            };
+
+            const sharedRoom = rooms[roomId];
             // add users to the room in rooms list if it exists
-            if (rooms[roomId]) {
-                rooms[roomId] = { ...rooms[roomId], users: [...rooms[roomId].users, socket.id] }
+            if (sharedRoom) {
+                sharedRoom.users = [...sharedRoom.users, newUser];
             }
 
             // make the room in rooms list if it does not exist
-            if (!rooms[roomId]) {
-                rooms[roomId] = { roomId, password, users: [socket.id] };
+            if (!sharedRoom) {
+                rooms[roomId] = { roomId, password, users: [newUser] };
             }
 
             // join the socket room
             socket.join(roomId);
 
-            socket.to(roomId).emit('playerJoined')
+            socket.to(roomId).emit('playerJoined', socket.id)
 
-            // add room to user for future lookup
-            users[socket.id].roomId = roomId;
+            console.log('AllRooms', rooms)
+        })
 
-            console.log(rooms)
-            console.log(users)
+        socket.on('disconnecting', () => {
+            console.log(socket.id, 'disconnecting from ', socket.rooms)
+            //for each room socket is in
+            socket.rooms.forEach(roomId => {
+                // Find the shared room and delete it if they're the last user
+                const sharedRoom = rooms[roomId];
+
+                if (sharedRoom) {
+                    // remove user from list
+                    sharedRoom.users = sharedRoom.users.filter(user => {
+                        return user.id !== socket.id
+                    })
+                    console.log('last user leaving, deleting', roomId);
+
+                    // delete the room if users is empty
+                    if (!sharedRoom.users.length) {
+                        delete rooms[roomId];
+                    }
+                }
+            })
         })
 
         socket.on('disconnect', () => {
             console.log(socket.id, 'disconnected')
-            // get room the user is in
-            const { roomId } = users[socket.id];
-            const room = roomId ? rooms[roomId] : null;
-
-            // if user's in a room, remove the user
-            if (room) {
-                room.users = [...room.users.filter(user => user !== socket.id)]
-            }
-
-            // if no users left delete room
-            if (room?.users.length === 0 && roomId) {
-                delete rooms[roomId]
-            }
-            delete users[socket.id];
         })
 
-        socket.on("roll", (roll) => {
-            console.log(roll)
-            console.log(rooms)
-            console.log(socket.id)
+        socket.on("roll", ({numDice, roomId}) => {
+            const roll = rollDice(numDice);
+            if (socket.rooms.has(roomId)) {
+                console.log('transmitting', roll, 'to', roomId)
+                io.in(roomId).emit('broadCastRoll', roll)
+            }
         })
     })
 
